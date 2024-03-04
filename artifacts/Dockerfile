@@ -1,5 +1,5 @@
-#FROM nginx
-FROM ubuntu:20.04
+
+FROM nginx@sha256:af296b188c7b7df99ba960ca614439c99cb7cf252ed7bbc23e90cfda59092305
 
 # can be passed during Docker build as build time environment for github branch to pickup configuration from.
 ARG container_user=mosip
@@ -15,7 +15,10 @@ ARG container_user_gid=1001
 
 # install packages and create user
 RUN apt-get -y update &&\
-apt-get install -y --no-install-recommends nginx unzip wget zip tree openjdk-11-jdk &&\
+apt-get install -y --no-install-recommends software-properties-common
+RUN add-apt-repository ppa:linuxuprising/java && apt-get install -y openjdk-11-jdk
+
+RUN apt-get install -y --no-install-recommends unzip wget zip tree  &&\
 groupadd -g ${container_user_gid} ${container_user_group} &&\
 rm -rf /var/lib/apt/lists/* &&\
 wget https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz &&\
@@ -28,7 +31,6 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 
 ENV MAVEN_HOME /usr/local/maven
 ENV PATH $MAVEN_HOME/bin:$PATH
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 
 # set working directory for the user
 WORKDIR /home/${container_user}
