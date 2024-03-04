@@ -1,4 +1,4 @@
-FROM nginx
+#FROM nginx
 FROM ubuntu:20.04
 
 # can be passed during Docker build as build time environment for github branch to pickup configuration from.
@@ -15,7 +15,7 @@ ARG container_user_gid=1001
 
 # install packages and create user
 RUN apt-get -y update &&\
-apt-get install -y --no-install-recommends unzip wget zip tree openjdk-11-jdk &&\
+apt-get install -y --no-install-recommends nginx unzip wget zip tree openjdk-11-jdk &&\
 groupadd -g ${container_user_gid} ${container_user_group} &&\
 rm -rf /var/lib/apt/lists/* &&\
 wget https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz &&\
