@@ -1,4 +1,5 @@
 FROM nginx
+FROM ubuntu:20.04
 
 # can be passed during Docker build as build time environment for github branch to pickup configuration from.
 ARG container_user=mosip
